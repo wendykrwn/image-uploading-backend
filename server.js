@@ -4,12 +4,27 @@ import { GetObjectCommand, PutObjectCommand } from "@aws-sdk/client-s3";
 import s3 from "./config/aws.js";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import cors from "cors";
-
+import dotenv from "dotenv";
 
 
 const app = express();
 
-app.use(cors());
+const allowedOrigins = [
+  "http://localhost:5173", 
+  process.env.URL_FRONT
+];
+
+app.use(cors({
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  methods: ["GET", "POST"],
+  allowedHeaders: ["Content-Type", "Authorization"]
+}));
 
 // config mémoire
 const storage = multer.memoryStorage();
