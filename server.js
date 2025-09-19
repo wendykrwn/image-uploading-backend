@@ -47,6 +47,9 @@ const upload = multer({
 
 
 app.post("/api/upload", (req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "GET,POST,OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
   upload.single("image")(req, res, function (err) {
     if (err instanceof multer.MulterError) {
@@ -87,6 +90,10 @@ app.post("/api/upload", (req, res, next) => {
 });
 
 app.get("/api/download/:filename",async (req,res)=>{
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "GET,POST,OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+
   try {
     const filename = req.params.filename;
 
