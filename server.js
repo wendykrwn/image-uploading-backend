@@ -72,7 +72,7 @@ app.post("/api/upload", (req, res, next) => {
   try {
     const command = new PutObjectCommand({
       Bucket: process.env.AWS_BUCKET_NAME,
-      Key: `uploads/${Date.now()}_${req.file.originalname}`,
+      Key: key,
       Body: req.file.buffer,
       ContentType: req.file.mimetype,
       ACL: "public-read",
